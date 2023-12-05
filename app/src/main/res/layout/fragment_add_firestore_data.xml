@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:foreground="@color/transparent"
+    tools:context=".firestore.AddFirestoreDataFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/dialog_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5">
+
+        <TextView
+            android:id="@+id/addColorTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Add Color"
+            android:textColor="@color/firebaseGrey"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/redValueTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="12dp"
+            android:text="Red Value"
+            android:textColor="@color/firebaseGrey"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/redValueET"
+            app:layout_constraintEnd_toStartOf="@+id/redValueET"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/redValueET" />
+
+        <TextView
+            android:id="@+id/greenValueTV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Green Value"
+            android:textColor="@color/firebaseGrey"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/greenValueET"
+            app:layout_constraintEnd_toEndOf="@+id/redValueTV"
+            app:layout_constraintStart_toStartOf="@+id/redValueTV"
+            app:layout_constraintTop_toTopOf="@+id/greenValueET" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Blue Value"
+            android:textColor="@color/firebaseGrey"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/blueValueET"
+            app:layout_constraintEnd_toEndOf="@+id/greenValueTV"
+            app:layout_constraintEnd_toStartOf="@+id/blueValueET"
+            app:layout_constraintStart_toStartOf="@+id/greenValueTV"
+            app:layout_constraintTop_toTopOf="@+id/blueValueET" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Chosen Color"
+            android:textColor="@color/firebaseGrey"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/colorView"
+            app:layout_constraintEnd_toStartOf="@+id/colorView"
+            app:layout_constraintStart_toStartOf="@+id/textView3"
+            app:layout_constraintTop_toTopOf="@+id/colorView" />
+
+        <EditText
+            android:id="@+id/redValueET"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:ems="10"
+            android:hint="0-255"
+            android:inputType="number"
+            android:minHeight="48dp"
+            android:textColor="@color/firebaseGrey"
+            android:textColorHint="@color/hintColor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addColorTV" />
+
+        <EditText
+            android:id="@+id/greenValueET"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="0-255"
+            android:inputType="number"
+            android:minHeight="48dp"
+            android:textColor="@color/firebaseGrey"
+            android:textColorHint="@color/hintColor"
+            app:layout_constraintEnd_toEndOf="@+id/redValueET"
+            app:layout_constraintTop_toBottomOf="@+id/redColorError" />
+
+        <TextView
+            android:id="@+id/greenColorError"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Must be in range 0-255"
+            android:textColor="@color/design_default_color_error"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/greenValueET"
+            app:layout_constraintStart_toStartOf="@+id/greenValueET"
+            app:layout_constraintTop_toBottomOf="@+id/greenValueET"
+            tools:visibility="visible" />
+
+        <EditText
+            android:id="@+id/blueValueET"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:hint="0-255"
+            android:inputType="number"
+            android:minHeight="48dp"
+            android:textColor="@color/firebaseGrey"
+            android:textColorHint="@color/hintColor"
+            app:layout_constraintEnd_toEndOf="@+id/greenValueET"
+            app:layout_constraintTop_toBottomOf="@+id/greenColorError" />
+
+        <TextView
+            android:id="@+id/blueColorError"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="66dp"
+            android:text="Must be in range 0-255"
+            android:textColor="@color/design_default_color_error"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/blueValueET"
+            app:layout_constraintStart_toStartOf="@+id/blueValueET"
+            app:layout_constraintTop_toBottomOf="@+id/blueValueET"
+            tools:visibility="visible" />
+
+        <Button
+            android:id="@+id/addColorBTN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/firebaseYellow"
+            android:text="Add"
+            android:textColor="@color/backgroundColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+        <TextView
+            android:id="@+id/redColorError"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Must be in range 0-255"
+            android:textColor="@color/design_default_color_error"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/redValueET"
+            app:layout_constraintStart_toStartOf="@+id/redValueET"
+            app:layout_constraintTop_toBottomOf="@+id/redValueET"
+            tools:visibility="visible" />
+
+        <View
+            android:id="@+id/colorView"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/black"
+            app:layout_constraintEnd_toEndOf="@+id/blueValueET"
+            app:layout_constraintStart_toEndOf="@+id/textView3"
+            app:layout_constraintTop_toBottomOf="@+id/blueColorError" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

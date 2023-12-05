@@ -1,0 +1,21 @@
+<resources>
+
+
+    <string name="app_name">FirebaseApp</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="auth_failed">Authentication Failed</string>
+    <string name="error">Error: </string>
+    <string name="enter_note_title">Enter note title!</string>
+    <string name="fetch_succeded">Fetch and activate succeeded</string>
+    <string name="fetch_failed">Fetch and activate failed</string>
+    <string name="upload_success">File uploaded successfully</string>
+    <string name="download_success">File downloaded successfully</string>
+
+    <string-array name="firebase_functions">
+        <item>cloud_firestore</item>
+        <item>realtime_database</item>
+        <item>cloud_storage</item>
+        <item>remote_config</item>
+    </string-array>
+</resources>
