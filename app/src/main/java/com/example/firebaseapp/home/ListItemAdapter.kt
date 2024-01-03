@@ -12,9 +12,18 @@ class ListItemAdapter(
     private val callback: ItemAdapterClickListener
 ) : RecyclerView.Adapter<ListItemAdapter.MyViewHolder>() {
 
+    private val features = listOf(
+        "Cloud Firestore",
+        "Realtime Database",
+        "Cloud Storage",
+        "Remote Config"
+    )
+
+
     class MyViewHolder(val binding: ListItemAdapterBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val imageBtn = binding.imageButton
+        val featureName = binding.featureName
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -32,7 +41,8 @@ class ListItemAdapter(
             ),
             null
         )
-        holder.imageBtn.setOnClickListener {
+        holder.featureName.text = features[position]
+        holder.itemView.setOnClickListener {
             callback.onItemClick(position)
         }
     }

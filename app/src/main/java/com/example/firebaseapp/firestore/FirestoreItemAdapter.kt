@@ -10,7 +10,6 @@ import com.example.firebaseapp.databinding.FirestoreItemAdapterBinding
 
 class FirestoreItemAdapter(
     private val items: List<FirestoreDataClass>,
-    private val context: Context,
     private val callback: FirestoreAdapterClickListener
 ) : RecyclerView.Adapter<FirestoreItemAdapter.MyViewHolder>() {
 
@@ -25,6 +24,7 @@ class FirestoreItemAdapter(
         val green = binding.greenValue
         var colorCode = binding.hexCode
         val background = binding.backgroundConstraintView
+        val touchableArea = binding.touchableArea
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -59,8 +59,12 @@ class FirestoreItemAdapter(
         holder.red.text = items[position].redValue.toString()
         holder.green.text = items[position].greenValue.toString()
         holder.blue.text = items[position].blueValue.toString()
-        holder.colorCode.text = items[position].hexCode.toString()
-        holder.background.setBackgroundColor(Color.parseColor(items[position].hexCode.toString()))
+        holder.colorCode.text = items[position].hexCode
+        holder.background.setBackgroundColor(Color.parseColor(items[position].hexCode))
+
+        holder.touchableArea.setOnClickListener {
+            callback.onEditClick(position)
+        }
 
         holder.binding.deleteButton.setOnClickListener {
             callback.onDeleteClick(position)

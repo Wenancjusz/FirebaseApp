@@ -15,8 +15,13 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import com.example.firebaseapp.databinding.FragmentAddFirestoreDataBinding
+import com.example.firebaseapp.R
 
-class AddFirestoreDataFragment(private val dismissedListener: OnDialogDismissedListener) : DialogFragment() {
+class AddFirestoreDataFragment(private var red: Int = -1,
+                               private var green: Int = -1,
+                               private var blue: Int = -1,
+                               private val id: String? = null,
+                               private val dismissedListener: OnDialogDismissedListener) : DialogFragment() {
     private lateinit var binding: FragmentAddFirestoreDataBinding
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -26,9 +31,17 @@ class AddFirestoreDataFragment(private val dismissedListener: OnDialogDismissedL
 
         builder.setView(binding.root)
 
-        var red = 0
-        var green = 0
-        var blue = 0
+        if (red != -1 && green != -1 && blue != -1) {
+            binding.redValueET.setText(red.toString())
+            binding.greenValueET.setText(green.toString())
+            binding.blueValueET.setText(blue.toString())
+            binding.colorView.background = Color.rgb(red, green, blue).toDrawable()
+        } else {
+            binding.colorView.background = Color.BLACK.toDrawable()
+        }
+
+        val text = if (red != -1) getString(R.string.edit) else getString(R.string.save)
+        binding.addColorTV.text = "$text color"
 
         binding.redValueET.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -94,11 +107,12 @@ class AddFirestoreDataFragment(private val dismissedListener: OnDialogDismissedL
 
             if (!isThereError) {
                 val navController = findNavController()
-                val savedState = navController.previousBackStackEntry?.savedStateHandle
+                val savedState = navController.currentBackStackEntry?.savedStateHandle
                 savedState?.set("red", red)
                 savedState?.set("green", green)
                 savedState?.set("blue", blue)
-                navController.navigateUp()
+                savedState?.set("id", id)
+                this.dismiss()
             }
         }
 

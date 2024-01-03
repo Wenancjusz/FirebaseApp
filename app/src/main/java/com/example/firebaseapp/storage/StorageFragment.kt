@@ -42,19 +42,23 @@ class StorageFragment : Fragment(), NoteAdapterClickListener {
             }
         }
 
-        binding.storageImageView.setOnClickListener {
+        binding.photoButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_GET_CONTENT)
             intent.type = "*/*"
             chooseImageToUpload.launch(intent)
         }
 
-        viewModel.getAllFilesNames() { fileNames ->
+        viewModel.getAllFilesNames { fileNames ->
             val fileNamesData = mutableListOf<RealtimeDBDataClass>()
             for (fileName in fileNames) {
                 fileNamesData.add(RealtimeDBDataClass(fileName, null))
             }
             binding.recyclerView.layoutManager = LinearLayoutManager(context)
-            binding.recyclerView.adapter = NoteAdapter(fileNamesData, true, requireContext(), this)
+            binding.recyclerView.adapter = NoteAdapter(fileNamesData, true, this)
+        }
+
+        binding.infoButton.setOnClickListener {
+            Toast.makeText(context,"To upload photo, tap on photo icon.", Toast.LENGTH_LONG).show()
         }
 
         return binding.root

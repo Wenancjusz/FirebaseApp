@@ -18,42 +18,43 @@ class RealtimeDatabaseFragment : Fragment(), NoteAdapterClickListener {
     private val binding get() = _binding!!
     private val viewModel: RealtimeDBViewModel by viewModels()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.configureDatabase(getString(R.string.database_reference))
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentRealtimeDatabaseBinding.inflate(inflater, container, false)
 
-        viewModel.configureDatabase(getString(R.string.database_reference))
-
         viewModel.downloadData {
-            refreshRecyclerView()
-        }
+            if (!requireArguments().isEmpty) {
 
-        if (!requireArguments().isEmpty) {
-            if (findNavController().backQueue.size > 1) {
-                repeat(2) {
-                    findNavController().backQueue.removeLast()
+                val backStackEntries = (requireParentFragment() as NavHostFragment).navController.currentBackStack.value as MutableList
+
+                if (backStackEntries.size > 2) {
+                    do backStackEntries.removeLast()
+                    while(backStackEntries.last().destination.label != "RealtimeDatabaseFragment")
+                }
+
+                val args = RealtimeDatabaseFragmentArgs.fromBundle(arguments ?: Bundle.EMPTY)
+                viewModel.saveData(args.noteTitle, args.noteText, args.previousTitle) { errorMessage ->
+                    if (errorMessage != null) {
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
+                    } else {
+                        refreshRecyclerView()
+                        requireArguments().clear()
+                    }
                 }
             }
-            val args = RealtimeDatabaseFragmentArgs.fromBundle(arguments ?: Bundle.EMPTY)
-            viewModel.saveData(args.noteTitle, args.noteText, args.previousTitle) { errorMessage ->
-                if (errorMessage != null) {
-                    Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
-                } else {
-                    requireArguments().clear()
-                }
-                refreshRecyclerView()
-            }
+            refreshRecyclerView()
         }
 
         binding.addButton.setOnClickListener {
             NavHostFragment.findNavController(this)
                 .navigate(R.id.action_realtimeDatabaseFragment_to_newDataRealtimeDBFragment)
         }
-
-        binding.recyclerView.layoutManager = LinearLayoutManager(context)
-        binding.recyclerView.adapter = NoteAdapter(viewModel.getItems(), false, requireContext(), this)
 
         return binding.root
     }
@@ -93,6 +94,6 @@ class RealtimeDatabaseFragment : Fragment(), NoteAdapterClickListener {
         }
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter =
-            NoteAdapter(viewModel.getItems(), false, requireContext(), this)
+            NoteAdapter(viewModel.getItems(), false, this)
     }
 }

@@ -46,7 +46,7 @@ class RemoteConfigFragment : Fragment() {
     private fun fetchRemoteConfigValues() {
         remoteConfig.fetchAndActivate()
             .addOnSuccessListener {
-                Log.d(TAG, getString(R.string.fetch_succeded))
+                Log.d(TAG, getString(R.string.fetch_succeeded))
                 applyRemoteConfigValuesToUI()
             }
             .addOnFailureListener { exception ->

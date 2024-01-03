@@ -11,14 +11,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import com.example.firebaseapp.R
-import com.example.firebaseapp.databinding.FragmentSignInBinding
+import com.example.firebaseapp.databinding.FragmentWelcomeBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.ApiException
 
-class SignInFragment : Fragment() {
-    private var _binding: FragmentSignInBinding? = null
+class WelcomeFragment : Fragment() {
+    private var _binding: FragmentWelcomeBinding? = null
     private val binding get() = _binding!!
-    private val RC_SIGN_IN = 9001
     private val viewModel: LoginRegisterViewModel by viewModels {
         LoginRegisterViewModelFactory(requireActivity())
     }
@@ -32,15 +31,15 @@ class SignInFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentSignInBinding.inflate(inflater, container, false)
+        _binding = FragmentWelcomeBinding.inflate(inflater, container, false)
 
         binding.signInButton.setOnClickListener {
-            val action = SignInFragmentDirections.actionSignInFragmentToLoginRegisterFragment(true)
+            val action = WelcomeFragmentDirections.actionSignInFragmentToLoginRegisterFragment(true)
             NavHostFragment.findNavController(this).navigate(action)
         }
 
         binding.signUpButton.setOnClickListener {
-            val action = SignInFragmentDirections.actionSignInFragmentToLoginRegisterFragment(false)
+            val action = WelcomeFragmentDirections.actionSignInFragmentToLoginRegisterFragment(false)
             NavHostFragment.findNavController(this).navigate(action)
         }
 

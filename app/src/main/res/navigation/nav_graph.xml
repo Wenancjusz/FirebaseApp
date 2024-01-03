@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.example.firebaseapp.authorisation.SignInFragment"
+        android:name="com.example.firebaseapp.authorisation.WelcomeFragment"
         android:label="fragment_sign_in"
-        tools:layout="@layout/fragment_sign_in">
+        tools:layout="@layout/fragment_welcome">
         <action
             android:id="@+id/action_signInFragment_to_loginRegisterFragment"
             app:destination="@id/loginRegisterFragment" />
@@ -73,7 +73,7 @@
         tools:layout="@layout/fragment_add_firestore_data">
         <action
             android:id="@+id/action_addFirestoreDataFragment_to_firestoreListFragment"
-            app:destination="@id/firestoreListFragment"></action>
+            app:destination="@id/firestoreListFragment" />
         <action
             android:id="@+id/action_addFirestoreDataFragment_to_realtimeDatabaseFragment"
             app:destination="@id/realtimeDatabaseFragment" />
@@ -85,10 +85,14 @@
         tools:layout="fragment_realtime_database">
         <action
             android:id="@+id/action_realtimeDatabaseFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/realtimeDatabaseFragment"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_realtimeDatabaseFragment_to_newDataRealtimeDBFragment"
-            app:destination="@id/newDataRealtimeDBFragment" />
+            app:destination="@id/newDataRealtimeDBFragment"
+            app:launchSingleTop="true"
+            app:popUpToInclusive="true" />
         <argument
             android:name="noteTitle"
             app:argType="string" />
@@ -117,7 +121,8 @@
         tools:layout="@layout/fragment_new_data_realtime_d_b">
         <action
             android:id="@+id/action_newDataRealtimeDBFragment_to_realtimeDatabaseFragment"
-            app:destination="@id/realtimeDatabaseFragment" />
+            app:destination="@id/realtimeDatabaseFragment"
+            app:popUpToInclusive="false" />
         <argument
             android:name="noteTitle"
             app:argType="string" />

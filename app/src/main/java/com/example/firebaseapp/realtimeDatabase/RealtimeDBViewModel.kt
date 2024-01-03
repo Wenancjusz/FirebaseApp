@@ -42,11 +42,11 @@ class RealtimeDBViewModel : ViewModel() {
         callback: (String?) -> Unit
     ) {
         val note = RealtimeDBDataClass(noteTitle, noteText)
+        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+        val userChild = database.child(mainChild).child(uid)
 
-        if (previousTitle == null || previousTitle == "") {
-            database.child(mainChild)
-                .child(FirebaseAuth.getInstance().currentUser?.uid ?: "")
-                .child(noteTitle).setValue(noteText)
+        if (previousTitle.isNullOrBlank()) {
+            userChild.child(noteTitle).setValue(noteText)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         items.add(note)
@@ -54,39 +54,32 @@ class RealtimeDBViewModel : ViewModel() {
                     callback(task.exception?.message)
                 }
         } else {
-            database.child(mainChild)
-                .child(FirebaseAuth.getInstance().currentUser?.uid ?: "")
-                .child(noteTitle).setValue(noteText)
+            val updateData = mapOf(
+                previousTitle to null,
+                noteTitle to noteText
+            )
+
+            userChild.updateChildren(updateData)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        database.child(mainChild)
-                            .child(FirebaseAuth.getInstance().currentUser?.uid ?: "")
-                            .child(previousTitle)
-                            .removeValue() { error, _ ->
-                                if (error == null) {
-                                    items.remove(RealtimeDBDataClass(previousTitle, noteText))
-                                    items.add(note)
-                                } else {
-                                    database.child(mainChild)
-                                        .child(FirebaseAuth.getInstance().currentUser?.uid ?: "")
-                                        .child(noteTitle).removeValue()
-                                    callback(error.message)
-                                }
-                            }
+                        items.removeAll { it.noteTitle == previousTitle }
+                        items.add(RealtimeDBDataClass(noteTitle, noteText))
                     } else {
-                        callback(task.exception?.message)
+                        userChild.child(noteTitle).removeValue()
                     }
+                    callback(task.exception?.message)
                 }
         }
     }
+
 
     fun deleteData(position: Int, callback: (String?) -> Unit) {
         database.child(mainChild)
             .child(FirebaseAuth.getInstance().currentUser?.uid ?: "")
             .child(items[position].noteTitle)
-            .removeValue() { error, _ ->
+            .removeValue { error, _ ->
                 items.removeAt(position)
-                callback(if (error != null) error.message else null)
+                callback(error?.message)
             }
     }
 }

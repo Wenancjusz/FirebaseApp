@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".authorisation.SignInFragment">
+    tools:context=".authorisation.WelcomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -54,17 +54,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="10dp" />
 
-
             <Button
                 android:id="@+id/signInWithGoogleButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
                 android:backgroundTint="@color/white"
                 android:text="Sign in with Google"
                 android:textColor="@color/black"
-                android:textStyle="bold" />
-
-
+                android:textStyle="bold"
+                app:icon="@drawable/google"
+                app:iconTintMode="multiply" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

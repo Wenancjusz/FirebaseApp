@@ -25,7 +25,7 @@ class FirestoreViewModel : ViewModel() {
             }
     }
 
-    fun saveData(red: Int, green: Int, blue: Int, callback: (String?) -> Unit) {
+    fun saveData(red: Int, green: Int, blue: Int, id: String? = null, callback: (String?) -> Unit) {
         val hexCode = calculateHexCode(red, green, blue)
         val data = hashMapOf(
             "hexCode" to hexCode,
@@ -34,15 +34,36 @@ class FirestoreViewModel : ViewModel() {
             "blueValue" to blue
         )
 
-        database.collection("Colors")
-            .add(data)
-            .addOnSuccessListener { documentReference ->
-                items.add(FirestoreDataClass(hexCode, red, green, blue, documentReference.id))
-                callback(null)
-            }
-            .addOnFailureListener { exception ->
-                callback(exception.message)
-            }
+        if (id != null) {
+            val newData = mapOf(
+                "redValue" to red,
+                "greenValue" to green,
+                "blueValue" to blue,
+                "hexCode" to hexCode
+            )
+
+            database.collection("Colors")
+                .document(id)
+                .update(newData)
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        val index = items.indexOfFirst { item -> item.id == id }
+                        if (index != -1) {
+                            items[index] = FirestoreDataClass(hexCode, red, green, blue, id)
+                        }
+                    }
+                    callback(it.exception?.message)
+                }
+        } else {
+            database.collection("Colors")
+                .add(data)
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        items.add(FirestoreDataClass(hexCode, red, green, blue, it.result.id))
+                    }
+                    callback(it.exception?.message)
+                }
+        }
     }
 
     fun deleteData(position: Int, callback: (String?) -> Unit) {

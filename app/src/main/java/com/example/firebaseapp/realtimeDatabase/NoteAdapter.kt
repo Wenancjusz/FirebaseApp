@@ -10,7 +10,6 @@ import com.example.firebaseapp.databinding.NoteAdapterBinding
 class NoteAdapter(
     private val items: List<RealtimeDBDataClass>,
     private val isStorage: Boolean,
-    private val context: Context,
     private val callback: NoteAdapterClickListener
 ) : RecyclerView.Adapter<NoteAdapter.MyViewHolder>() {
 
@@ -18,6 +17,7 @@ class NoteAdapter(
         RecyclerView.ViewHolder(binding.root) {
         val noteTitle = binding.noteTitle
         val actionBTN = binding.actionBTN
+        val view = binding.view
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -33,8 +33,8 @@ class NoteAdapter(
         } else {
             R.drawable.baseline_delete_white
         }
-        holder.binding.actionBTN.setImageResource(drawable)
-        holder.binding.actionBTN.setOnClickListener {
+        holder.actionBTN.setImageResource(drawable)
+        holder.actionBTN.setOnClickListener {
             if (isStorage) {
                 callback.onDownloadClicked(holder.noteTitle.text.toString())
             } else {
@@ -42,7 +42,7 @@ class NoteAdapter(
             }
         }
 
-        holder.binding.view.setOnClickListener {
+        holder.view.setOnClickListener {
             callback.onNoteClicked(items[position])
         }
     }
